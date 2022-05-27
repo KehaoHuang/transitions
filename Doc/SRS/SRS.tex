@@ -1,0 +1,556 @@
+\documentclass[12pt, titlepage]{article}
+
+\usepackage{booktabs}
+\usepackage{tabularx,array}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage[shortlabels]{enumitem}
+\hypersetup{
+  colorlinks,
+  citecolor=black,
+  filecolor=black,
+  linkcolor=red,
+  urlcolor=blue
+}
+\usepackage[round]{natbib}
+\usepackage{float}
+\usepackage{soul}
+
+\title{SE 3XA3: Software Requirements Specification \\
+  Finite State Machine Simulator}
+
+\author{
+  Team \#16, NonDeterministic Key \\
+  Anhao Jiao (jiaoa3) \\
+  Kehao Huang (huangk53) \\
+  Xunzhou Ye (yex33)
+}
+
+\date{8 February 2022}
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+\listoftables
+\listoffigures
+
+\newpage
+
+\begin{table}[H]
+  \caption{\bf Revision History}
+  \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+    \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+    \midrule
+    8 February 2022 & 1.0 & First version \\
+    21 March 2022 & 2.0 & Revision 0\\
+    12 April 2022 & 3.0 & Revision 1\\ 
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\newpage
+
+\pagenumbering{arabic}
+
+This document describes the requirements for Finite State Machine Simulator. The
+template for the Software Requirements Specification (SRS) is a subset of the
+Volere template~\citep{RobertsonAndRobertson2012}. If you make further
+modifications to the template, you should explicity state what modifications
+were made.
+
+\section{Project Drivers}
+
+\subsection{The Purpose of the Project}
+The purpose of our project is to build a software system called Finite State
+Machine Simulator that provides a convenient way to model finite state machines
+and simulate transitions between states. The system is also able to visualize
+finite state machines by generating their corresponding \LaTeX\ snippets. The
+system is intended to be used both as a Python library and as standalone
+application running in the Python interactive shell.
+
+\subsection{The Stakeholders}
+
+\subsubsection{The Clients}
+The clients for this project are Professor Asghar Bokhari of McMaster University
+and TAs of the course SFWRENG 3XA3.
+
+\subsubsection{The Customers}
+The customers for this projects are students, educators, and people who work
+with finite state machines in an academic setting.
+
+\subsubsection{Other Stakeholders}
+Not applicable. The software system is intended to provide academic support and
+requires the users to posses basic knowledge of finite state machines and Python
+programming language. Therefore, members of the public is not included in our
+consumer base.
+
+\subsection{Mandated Constraints}
+\begin{itemize}
+\item The product must be completed by April 12, 2022.
+\end{itemize}
+
+\subsection{Naming Conventions and Terminology}
+\begin{itemize}
+\item \textbf{FSM}: Short form of finite state machine.
+\item \textbf{FSMS}: Short form of Finite State Machine Simulator, which refers to this
+  software system.
+\item \textbf{SRS}: Short form of Software Requirement Specification, which refers to
+  this document.
+\item \textbf{CLI}: Short form of Command-Line Interface.
+\end{itemize}
+
+\subsection{Relevant Facts and Assumptions}
+
+\subsubsection{Relevant Facts}
+
+This project is a reimplementation of an open source project,
+\href{https://github.com/pytransitions/transitions/}{pytransitions/transitions}.
+The original code base is under MIT open source license and has around 3000
+lines of codes.
+
+\subsubsection{Assumptions}
+\begin{itemize}
+\item Users are familiar with Python programming language.
+\item Users have basic knowledge of FSM.
+\item Users have experience with CLI.
+\end{itemize}
+
+\section{Functional Requirements}
+
+\subsection{The Scope of the Work and the Product}
+
+\subsubsection{The Context of the Work}
+
+Work is assigned and organized into deliverables listed in Table \ref{tab:deliv}.
+
+\begin{table}[H]
+  \centering
+  \caption{\textbf{Deliverables}}
+  \begin{tabular}{ll}
+    \toprule
+    Item                               & Due Date \\
+    \midrule
+    Requirements Document (Revision 0) & February 11 \\
+    Proof of Concept Demonstration     & Week of February 28 \\
+    Test Plan (Revision 0)             & March 11 \\
+    Design and Document (Revision 0)   & March 18 \\
+    Revision 0 Demonstration           & Week of March 21 \\
+    Final Demonstration (Revision 1)   & Week of April 4 \\
+    Peer Evaluation                    & Week of April 4 \\
+    Final Documentation (Revision 1)   & April 12 \\
+    \bottomrule
+  \end{tabular}
+  \label{tab:deliv}
+\end{table}
+
+\subsubsection{Work Partitioning}
+
+\begin{enumerate}[{Partition} 1:]
+\item Core function of FSMS, including FSM creation, modification, trigger
+  declaration
+\item \LaTeX\ snippet exportation
+\end{enumerate}
+
+\subsubsection{Individual Product Use Cases}
+
+\begin{enumerate}[{UC}1.]
+\item To define FSMs
+\item To modify existing FSMs
+\item To fire triggers (transitions) and inspect the working state
+\item To export a defined FSM to external sources
+\end{enumerate}
+
+\subsection{Functional Requirements}
+
+\begin{enumerate}[{FR}1.]
+\item The user must be able to define a FSM by specifying relevant states and an
+  initial state.
+  \begin{description}
+  \item[Rationale] A minimum well-defined FSM is consists of a set of states and a
+    initial state as the entry point. This is the most basic requirement for any
+    FSM simulating system.
+  \item[Fit Criterion] The user is able to instantiate a FSM object with all
+    specified states.
+  \item[Priority] High
+  \end{description}
+\item The user must be able to add, remove, modify transitions between states
+  (triggers).
+  \begin{description}
+  \item[Rationale] Having triggers makes a FSM non-trivial, and allows simulations
+    to be performed.
+  \item[Fit Criterion] The user is able to update triggers in a FSM as they wish.
+    The effect of changes to triggers takes place as soon as the user completes
+    the update transaction.
+  \item[Priority] High
+  \end{description}
+\item The user should be able to add, remove, modify states in a FSM.
+  \begin{description}
+  \item[Rationale] It is always welcome to provide additional flexibility of
+    modifying FSMs on-the-fly to the user. There is no need to make states
+    constant for any FSM.
+  \item[Fit Criterion] The user is able to modify state as they wish.
+  \item[Priority] Medium
+  \end{description}
+\item The user must be able to fire triggers they specified in prior
+  \begin{description}
+  \item[Rationale] If the user is not able to invoke transitions, it defeats the
+    purpose of specifying transitions for a FSM.
+  \item[Fit Criterion] The system record and processes the user's transaction and
+    transition the state of the FSM accordingly.
+  \item[Priority] High
+  \end{description}
+\item The user must be provided a mean to inspect the state of a FSM.
+  \begin{description}
+  \item[Rationale] If the user is not able to inspect the active state of a FSM,
+    the user has no way of know the result of any performed transition.
+    Simulation on FSMs is all about observing state changes as the result of
+    triggers firing.
+  \item[Fit Criterion] The user can access the active state of a FSM at any time.
+  \item[Priority] High
+  \end{description}
+\item The user must be able to export an existing FSM in the form of \LaTeX\ snippets.
+  \begin{description}
+  \item[Rationale] The user can use the exported snippets in combination with a \TeX\
+    rendering engine for a graphical visualization of an existing FSM, or as a
+    figure to be referenced in their academic materials.
+  \item[Fit Criterion] The rendered digram clearly displays all essential
+    information describing the FSM.
+  \item[Priority] High
+  \end{description}
+\end{enumerate}
+
+\section{Non-functional Requirements}
+
+\subsection{Look and Feel Requirements}
+\subsubsection{Appearance Requirements}
+\begin{enumerate}[{NF}1., series=NFR]
+\item The system shall display user interface in the command line
+  \begin{description}
+  \item[Rationale] This is the main use case of the system.
+  \item[Fit Criterion] Users shall be able to use the system at Python interactive
+    shell.
+  \item[Priority] High
+  \end{description}
+\end{enumerate}
+
+\subsection{Usability and Humanity Requirements}
+\subsubsection{Ease of Use Requirements}
+\begin{enumerate}[resume*=NFR]
+\item The system shall provide an interface that is easy to understand and use
+  \begin{description}
+  \item[Rationale] Intended users are familiar with FSM and Python.
+  \item[Fit Criterion] 90\% of software engineering student at McMaster University
+    can use the product.
+  \item[Priority] High
+  \end{description}
+\end{enumerate}
+
+\subsubsection{Learning Requirements}
+\begin{enumerate}[resume*=NFR]
+\item The system shall allow users to be able to use quickly.
+  \begin{description}
+  \item[Rationale] Intended users are familiar with Python and CLI.
+  \item[Fit Criterion] 90\% of users can learn to use this system within 1 hour.
+  \item[Priority] High
+  \end{description}
+
+\end{enumerate}
+
+\subsection{Performance Requirements}
+\subsubsection{Speed and Latency Requirements}
+\begin{enumerate}[resume*=NFR]
+\item The system shall respond and execute user's operation within 2.0 seconds
+  \begin{description}
+  \item[Rationale] The product shall not create stalls.
+  \item[Fit Criterion] All outputs for users' operation are generated within 2.0
+    seconds.
+  \item[Priority] High
+  \end{description}
+
+\end{enumerate}
+
+\subsubsection{Precision or Accuracy Requirements}
+\begin{enumerate}[resume*=NFR]
+\item The system shall display the same FSM as user's inputs
+  \begin{description}
+  \item[Rationale] The system should display the correct FSMs.
+  \item[Fit Criterion] The displayed FSMs include correct states and transitions as
+    users defined.
+  \item[Priority] High
+  \end{description}
+
+\end{enumerate}
+
+\subsubsection{Robustness or Fault-Tolerance Requirements}
+\begin{enumerate}[resume*=NFR]
+\item The system shall ignore incorrect/unknown input from the user
+  \begin{description}
+  \item[Rationale] The system must prevent the occurrence of fault.
+  \item[Fit Criterion] Invalid inputs from users are not accepted by the system.
+  \item[Priority] High
+  \end{description}
+
+\item The system shall have zero fault-tolerant
+  \begin{description}
+  \item[Rationale] Users must know when they made an error.
+  \item[Fit Criterion] A warning message is displayed when there is an error.
+  \item[Priority] High
+  \end{description}
+
+\end{enumerate}
+
+\subsubsection{Scalability or Extensibility Requirements}
+\begin{enumerate}[resume*=NFR]
+\item The system shall be able to add new extensions
+  \begin{description}
+  \item[Rationale] Further improvements and extensions of the system is needed.
+  \item[Fit Criterion] Not applicable.
+  \item[Priority] High
+  \end{description}
+
+\end{enumerate}
+
+\subsubsection{Longevity Requirements}
+\begin{enumerate}[resume*=NFR]
+\item The system shall be able to run till April 30, 2022
+  \begin{description}
+  \item[Rationale] This is the minimum live span of the system.
+  \item[Fit Criterion] The system is able to run without being maintained.
+  \item[Priority] Medium
+  \end{description}
+
+\end{enumerate}
+
+\subsection{Operational and Environmental Requirements}
+\subsubsection{Expected Physical Environment}
+\begin{enumerate}[resume*=NFR]
+\item The system shall run on any laptop/desktop with Linux/Windows systems
+  \begin{description}
+  \item[Rationale] Users are able to use the system on these devices and systems.
+  \item[Fit Criterion] The system operates on these devices and systems.
+  \item[Priority] Medium
+  \end{description}
+
+\end{enumerate}
+
+\subsubsection{Release Environment}
+\begin{enumerate}[resume*=NFR]
+\item The system shall be available before April 1, 2022
+  \begin{description}
+  \item[Rationale] This is the deadline of the project set by the client.
+  \item[Fit Criterion] The system is able to operate no later than April 1, 2022.
+  \item[Priority] Low
+  \end{description}
+
+\end{enumerate}
+
+\subsection{Maintainability and Support Requirements}
+\subsubsection{Maintenance Requirements}
+\begin{enumerate}[resume*=NFR]
+\item The system shall take no longer than 4 hours to be maintained/updated
+  \begin{description}
+  \item[Rationale] Not applicable.
+  \item[Fit Criterion] Not applicable.
+  \item[Priority] Low
+  \end{description}
+
+\end{enumerate}
+
+\subsubsection{Supportability Requirements}
+\begin{enumerate}[resume*=NFR]
+\item The system shall be able to run on most of the laptop/desktop
+  \begin{description}
+  \item[Rationale] The system should have a low hardware requirement.
+  \item[Fit Criterion] 98\% of students at McMaster University are able to run the
+    system on their laptops and PCs.
+  \item[Priority] Low
+  \end{description}
+
+\end{enumerate}
+
+\subsection{Security Requirements}
+\subsubsection{Integrity Requirements}
+\begin{enumerate}[resume*=NFR]
+\item The system shall not be able to be modified by unauthorized users
+  \begin{description}
+  \item[Rationale] This prevents the system from malfunctions.
+  \item[Fit Criterion] Any updates/modifications to the system shall only be made
+    and reviewed by development team.
+  \item[Priority] High
+  \end{description}
+\end{enumerate}
+
+\subsubsection{Privacy Requirements}
+\begin{enumerate}[resume*=NFR]
+\item The system shall not share users’ account information
+  \begin{description}
+  \item[Rationale] Users account information are credential.
+  \item[Fit Criterion] Not applicable.
+  \item[Priority] High
+  \end{description}
+
+\item The system shall not collect any non-essential information from users
+  \begin{description}
+  \item[Rationale] This prevents unauthorized disclosure of users information.
+  \item[Fit Criterion] Not applicable.
+  \item[Priority] High
+  \end{description}
+
+\end{enumerate}
+
+\subsubsection{Audit Requirements}
+\begin{enumerate}[resume*=NFR]
+\item An audit is required before releasing an update of the system
+  \begin{description}
+  \item[Rationale] Not applicable.
+  \item[Fit Criterion] Not applicable.
+  \item[Priority] Low
+  \end{description}
+
+\item Errors should be fixed after an audit
+  \begin{description}
+  \item[Rationale] Not applicable.
+  \item[Fit Criterion] 80\% of Errors are fixed after an audit.
+  \item[Priority] High
+  \end{description}
+
+\end{enumerate}
+
+\subsection{Cultural Requirements}
+\subsubsection{Cultural Requirements}
+\begin{enumerate}[resume*=NFR]
+\item The system shall not display any offensive cultural symbol/language
+  \begin{description}
+  \item[Rationale] The intended users of the system are considered to have various
+    cultural and religious backgrounds.
+  \item[Fit Criterion] Not applicable.
+  \item[Priority] High
+  \end{description}
+
+\end{enumerate}
+
+\subsubsection{Political Requirements}
+\begin{enumerate}[resume*=NFR]
+\item The system shall not be associated with any political opinions
+  \begin{description}
+  \item[Rationale] The Not applicable.
+  \item[Fit Criterion] Not applicable.
+  \item[Priority] High
+  \end{description}
+
+\end{enumerate}
+\subsection{Legal Requirements}
+\subsubsection{Standards Requirements}
+\begin{enumerate}[resume*=NFR]
+\item The system shall meet the ISO/IEC 12207
+  \begin{description}
+  \item[Rationale] ISO/IEC 12207 is an international standard for software
+    lifecycle processes.
+  \item[Fit Criterion] The system meet the standard of ISO/IEC 12207.
+  \item[Priority] Medium
+  \end{description}
+
+\end{enumerate}
+\subsection{Health and Safety Requirements}
+\begin{enumerate}[resume*=NFR]
+\item The system shall not cause the computers to overload and explode
+  \begin{description}
+  \item[Rationale] The system has a low hardware requirement.
+  \item[Fit Criterion] The hardware running the system is under normal temperature.
+  \item[Priority] Low
+  \end{description}
+
+\item The system shall not affect user's physical and mental health
+  \begin{description}
+  \item[Rationale] The system must not harm users' health and safety.
+  \item[Fit Criterion] Users feel comfortable using the system in various
+    situations.
+  \item[Priority] High
+  \end{description}
+
+\end{enumerate}
+
+\section{Project Issues}
+
+\subsection{Open Issues}
+
+\begin{itemize}
+\item The most difficult part of developing the system is to implement the \LaTeX\
+  exportation feature. Developing a system to mechanically generate \LaTeX\
+  snippets require extensive knowledge of both the \LaTeX\ mark-up language as
+  well as the graphing library, \verb|tkiz|.
+\item Testing for the \LaTeX\ exportation feature is considered to be difficult.
+\end{itemize}
+
+\subsection{Off-the-Shelf Solutions}
+\begin{itemize}
+\item There is no existing software that can provide a solution to the
+  implementation of the \LaTeX\ exportation feature. This issue is planned to be
+  resolved within the project development team.
+\item To test the exportation output, an additional dependency, the \LaTeX\ rendering
+  back-end would be needed. However, manual inspection of the rendered result
+  would also be necessary.
+\end{itemize}
+
+\subsection{New Problems}
+
+Some of the users may be not familiar with command line interface. In this case,
+it would be difficult for those to use the software.
+
+\subsection{Tasks}
+
+\st{See Gantt Project file under ProjectSchedule directory.}
+
+\href{https://gitlab.cas.mcmaster.ca/yex33/transitions_l02_grp16/-/blob/main/ProjectSchedule/Project%20Schedule.gan}{Gantt
+  Project on GitLab}
+
+
+\subsection{Migration to the New Product}
+Not Applicable
+
+\subsection{Risks}
+\st{Not Applicable}\\
+\textcolor{red}{One of the potential risks associated with the project is that
+  the testing for the diagram and \LaTeX\ Exportation feature can be
+  complicated and time-consuming. Although the correctness of diagrams is easy
+  to be validated, their appearance can hardly be evaluated by any automation
+  tools. Therefore, we expect to use a large amount of manual testing and visual
+  inspection of the output.}
+
+\subsection{Costs}
+Not Applicable
+
+\subsection{User Documentation and Training}
+The software will include a user manual which contains instructions on how to
+use the software.
+
+\subsection{Waiting Room}
+Provide a GUI for the software. Users could choose between a command-line
+interface and graphical user interface to use the software.
+
+\subsection{Ideas for Solutions}
+Each transition could be represented by arrows, each state could be represented
+by circles. During simulation, the software would highlight the current
+state/transitions.
+
+
+\bibliographystyle{plainnat}
+
+\bibliography{SRS}
+
+\newpage
+
+\section{Appendix}
+
+This section has been added to the Volere template. This is where you can place
+additional information.
+
+\subsection{Symbolic Parameters}
+
+The definition of the requirements will likely call for SYMBOLIC\_CONSTANTS.
+Their values are defined in this section for easy maintenance.
+
+\end{document}

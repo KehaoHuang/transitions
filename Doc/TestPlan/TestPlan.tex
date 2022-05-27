@@ -1,0 +1,473 @@
+\documentclass[12pt, titlepage]{article}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=red,
+    urlcolor=blue
+}
+\usepackage[round]{natbib}
+\usepackage{float}
+\usepackage{xcolor}
+
+\title{SE 3XA3: Test Plan\\Finite State Machine Simulator}
+
+\author{
+  Team \#16, NonDeterministic Key \\
+  Anhao Jiao (jiaoa3) \\
+  Kehao Huang (huangk53) \\
+  Xunzhou Ye (yex33)
+}
+
+\date{11 March 2022}
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+\listoftables
+\listoffigures
+
+\begin{table}[bp]
+\caption{\bf Revision History}
+\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+\midrule
+11 March 2022 & 1.0 & Revision 0\\
+12 April 2022 & 2.0 & Revision 1\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\newpage
+\tableofcontents
+\pagenumbering{arabic}
+
+\section{General Information}
+
+\subsection{Purpose}
+The purpose of testing this software system is to help in finalizing the
+software application against functional and non-functional requirements. It is
+also intended that testing will help find defects created by programmer while developing the software.
+\subsection{Scope}
+This document provides a detailed schedule for the testing activities of the
+software system Finite State Machine Simulator. It also contains a description
+of the intended testing approach. 
+
+\subsection{Acronyms, Abbreviations, and Symbols}
+	
+\begin{table}[hbp]
+\caption{\textbf{Table of Abbreviations}} \label{Table}
+
+\begin{tabularx}{\textwidth}{p{3cm}X}
+\toprule
+\textbf{Abbreviation} & \textbf{Definition} \\
+\midrule
+FSM & Finite State Machine\\
+FSMS & Finite State Machine\\
+PoC & Proof of Concept\\
+SRS & Software Requirements Specification\\  
+\bottomrule
+\end{tabularx}
+
+\end{table}
+
+\begin{table}[!htbp]
+\caption{\textbf{Table of Definitions}} \label{Table}
+
+\begin{tabularx}{\textwidth}{p{3cm}X}
+\toprule
+\textbf{Term} & \textbf{Definition}\\
+\midrule
+  Functional Testing & Testings that validates the software system against the
+                       functional requirements\\
+  Non-Functional Testing & Testings that validates the software system against
+                           the non-functional requirements \\
+Dynamic Testing & Testing by executing the program\\
+  Static Testing & Testings that does not execute the program\\
+  Manual Testing & Testings that execute test cases manually\\
+  Automated Testing & Testings that leverage automation tools\\
+\bottomrule
+\end{tabularx}
+
+\end{table}	
+
+\subsection{Overview of Document}
+In this document, a general plan for the testing activities of is provides. In
+addition, a system test description is included to provide an overview of the
+desired testing area and the approach of testing against the functional
+requirements and non-functional requirements.
+\section{Plan}
+\subsection{Software Description}
+The software system FSMS is capable of defining FSM by specifying states and
+transitions, invoking and simulating transitions, and rendering FSM into \LaTeX\
+snippets. It is implemented in Python.
+\subsection{Test Team}
+The test team includes all members in the development team. The test team
+members are:
+\begin{itemize}
+\item Anhao Jiao
+\item Xunzhou Ye
+\item Kehao Huang
+\end{itemize}
+\subsection{Automated Testing Approach}
+Automated testing is planned to be performed at unit testing level.
+\subsection{Testing Tools}
+For unit testing of the software system FSMS, pytest will be used to perform
+automated testing.
+\subsection{Testing Schedule}
+		
+See Gantt Chart at the following url \url{https://gitlab.cas.mcmaster.ca/yex33/transitions_l02_grp16/-/blob/main/ProjectSchedule/Project%20Schedule.gan}
+
+\section{System Test Description}
+	
+\subsection{Tests for Functional Requirements}
+
+\subsubsection{User Input}
+		
+\paragraph{User Input Testing}
+
+\begin{enumerate}
+
+\item{UIT-1\\}
+
+Type: Functional, Dynamic, Manual
+					
+Initial State: FSM simulator that is used to define a FSM
+					
+Input: Initial state and relevant states
+					
+Output: A valid FSM
+					
+How test will be performed: The FSM simulator will be running using certain inputs. Then check if there is 
+a valid FSM.
+					
+\item{UIT-2\\}
+
+Type: Functional, Dynamic, Manual
+					
+Initial State: FSM simulator that is used to define a FSM
+					
+Input: Modification of transitions between states in an existing FSM
+					
+Output: A modified version of FSM
+					
+How test will be performed: The FSM simulator will be running using certain inputs to form a FSM. Then it will be 
+running modification of transitions and check if there is modified FSM.
+
+\item{UIT-3\\}
+
+Type: Functional, Dynamic, Manual
+					
+Initial State: FSM simulator that is used to define a FSM
+					
+Input: Modification of states in an existing FSM
+
+Output: A modified version of FSM
+					
+How test will be performed: The FSM simulator will be running using certain inputs to form a FSM. Then it will be 
+running modification of states and check if there is modified FSM.
+
+\item{UIT-4\\}
+
+Type: Functional, Dynamic, Manual
+					
+Initial State: FSM simulator that is used to define a FSM
+					
+Input: The specified transitions
+					
+Output: The FSM will allow user to switch states following the valid transitions
+					
+How test will be performed: The FSM simulator will be running using certain inputs to form a FSM. Then it will be 
+running certain triggers and check if there're changes in states.
+
+
+\item{UIT-5\\}
+
+  Type: Functional, Dynamic, Manual
+  
+  Initial State: FSM simulator that is used to define a FSM
+  
+  Input: a non-existing trigger event
+  
+  Output: a MachineError thrown
+  
+  How test will be performed: The FSM simulator will be running using certain inputs to form a FSM. Then it will be 
+  running certain triggers and check if there're changes in states.
+
+\end{enumerate}
+
+\subsubsection{Output}
+		
+\paragraph{Output Testing}
+
+\begin{enumerate}
+
+\item{OT-1\\}
+
+Type: Functional, Dynamic, Manual
+					
+Initial State: FSM simulator that is used to define a FSM
+					
+Input: Require current state
+					
+Output: The current state of the FSM
+					
+How test will be performed: The FSM simulator will be running a valid FSM. Then check if there is 
+current state displayed.
+					
+\item{OT-2\\}
+
+Type: Functional, Dynamic, Manual
+					
+Initial State: FSM simulator that is used to define a FSM
+					
+Input: A valid FSM
+					
+Output: \LaTeX\ snippets of the input FSM 
+					
+How test will be performed: The FSM simulator will be running using certain inputs to form a FSM. Then check if it can 
+generate corresponding \LaTeX\ snippets.
+
+\item{\textcolor{red}{OT-3}\\}
+
+  \textcolor{red}{Type: Functional, Dynamic, Manual}
+    
+    \textcolor{red}{Initial State: FSM simulator that is used to define a FSM}
+
+    \textcolor{red}{Input: A valid FSM}
+
+    \textcolor{red}{Output: A .png image representing the pre-defined FSM}
+
+    \textcolor{red}{How test will be performed: The FSM simulator will be
+      running using certain inputs to form a FSM. Then check if it can generate
+      corresponding image through visual inspection.}
+
+    \item{\textcolor{red}{OT-4}\\}
+
+    \textcolor{red}{Type: Functional, Dynamic, Manual}
+    
+    \textcolor{red}{Initial State: FSM simulator that is used to define a FSM}
+
+    \textcolor{red}{Input: A valid FSM with only states.}
+
+    \textcolor{red}{Output: A .png image representing the pre-defined FSM with
+      no transition.}
+
+    \textcolor{red}{How test will be performed: The FSM simulator will be
+      running using certain inputs to form a FSM. Then check if it can generate
+      corresponding image through visual inspection.}
+
+\end{enumerate}
+
+\subsection{Tests for Nonfunctional Requirements}
+
+\subsubsection{Usability Testing}
+
+\begin{enumerate}
+
+\item{UT-1\\}
+
+  Type: Non-Functional, Dynamic, Manual
+  
+  Initial State: a well-defined FSM with states, initial state, transitions
+  
+  Input/Condition: user asked the program to export the defined FSM into \LaTeX snippets
+
+  Output/Result: the image rendered using the exported snippet is visually
+  appealing, with minimal overlapping of arrows, circles, or other visualization
+  elements.
+  
+  How test will be performed: feed a fixed list of states and transition into the
+  program. Developers in the team would be asked to compare the rendered image
+  against their hand-drawn representation of the FSM.
+  
+\item{UT-2\\}
+
+  Type: Non-Functional, Dynamic, Manual
+  
+  Initial State: a computer with only Python preinstalled
+  
+  Input: user asked to install the program without assistance
+  
+  Output: the majority of users are able to install the program independently
+  within 5 minutes
+  
+  How test will be performed: a group of McMaster engineering students will be
+  asked to pull our repository from gitlab, follow the installation guide, and
+  have the program running for FSM related work.
+
+\item{UT-3\\}
+
+  Type: Non-Functional, Dynamic, Manual
+  
+  Initial State: a computer with the program installed
+  
+  Input: user asked to incorporate the program in their academic work flow
+  
+  Output: the majority of users are benefited from the use of our tool
+  
+  How test will be performed: a survey will be conducted to ask the user to rate
+  the program.
+
+\end{enumerate}
+
+\subsubsection{\textcolor{red}{Maintainability and Support Testing}}
+
+  \begin{enumerate}
+    \item {\textcolor{red}{MS-1}}
+    
+    \textcolor{red}{Type: Non-Functional, Dynamic, Manual} 
+  
+    \textcolor{red}{Initial State: a computer with the program installed} 
+  
+    \textcolor{red}{Input: update the software with new features} 
+  
+    \textcolor{red}{Output: The overall maintaining duration shall less than 4 hours} 
+
+    \textcolor{red}{How test will be performed: manually update the software and time the duration}
+
+
+    \item {\textcolor{red}{MS-2}}
+
+    \textcolor{red}{Type: Non-Functional, Dynamic, Manual} 
+  
+    \textcolor{red}{Initial State: a computer with the program installed} 
+  
+    \textcolor{red}{Input: Install and use the software} 
+  
+    \textcolor{red}{Output: 98\% of students are able to run the system on their pcs or laptops } 
+
+    \textcolor{red}{How test will be performed: a survey will be conducted to determine the success rate of using the software}
+
+  \end{enumerate}
+
+\subsection{Traceability Between Test Cases and Requirements}
+
+\begin{table}[H]
+  \begin{tabularx}{1.0\linewidth}[H]{ll}
+    \toprule
+    Test Case & Requirement \\
+    \midrule
+    UIT-1 & FR1 \\
+    UIT-2 & FR2 \\
+    UIT-3 & FR3 \\
+    UIT-4 & FR4 \\
+    UIT-5 & FR4 \\
+    OT-1 & FR5 \\
+    OT-2 & FR6 \\
+    \textcolor{red}{OT-3} & \textcolor{red}{FR5} \\
+    \textcolor{red}{OT-4} & \textcolor{red}{FR5} \\
+    \midrule
+    UT-1 & NF1--2 \\
+    UT-2 & NF3, NF10, NF13 \\
+    UT-3 & NF2, NF4--7, NF9, NF11--12 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section{Tests for Proof of Concept}
+
+		
+\begin{enumerate}
+
+\item{POC-1\\}
+
+Type: Functional, Dynamic, Manual
+					
+Initial State: user have defined a FSM
+					
+Input: FSM with 5 states and 4 transitions
+					
+Output: a \LaTeX snippet that is ready to be compiled into pdf
+					
+How test will be performed: the snippet will be copied into a .tex file and
+compiled. The tester will visually inspect the output image to verify its
+correctness and appearance.
+
+
+\item{POC-2\\}
+
+  Type: Functional, Dynamic, Manual
+  
+  Initial State: user have defined a FSM
+  
+  Input: FSM with 5 states and 0 transitions
+  
+  Output: a \LaTeX snippet that is ready to be compiled into pdf
+  
+  How test will be performed: the snippet will be copied into a .tex file and
+  compiled. The tester will visually inspect the output image to verify its
+  correctness and appearance.
+					
+
+\item{POC-3\\}
+
+  Type: Functional, Dynamic, Manual
+  
+  Initial State: user have defined a FSM
+  
+  Input: FSM with 0 states and 0 transitions
+  
+  Output: a \LaTeX snippet that is ready to be compiled into pdf
+  
+  How test will be performed: the snippet will be copied into a .tex file and
+  compiled. The tester will visually inspect the output image to verify its
+  correctness and appearance.
+
+\item{POC-4\\}
+
+  Type: Functional, Dynamic, Manual
+  
+  Initial State: user have defined a FSM
+  
+  Input: FSM with 100 states and 400 transitions
+  
+  Output: a \LaTeX snippet that is ready to be compiled into pdf
+  
+  How test will be performed: the snippet will be copied into a .tex file and
+  compiled. The tester will visually inspect the output image to verify its
+  correctness and appearance.
+\end{enumerate}
+	
+\section{Comparison to Existing Implementation}	
+
+N/A
+				
+\section{Unit Testing Plan}
+		
+\subsection{Unit testing of internal functions}
+We will use pytest to perform unit testing of internal functions. In this
+project, a method is considered to be a unit. For each method, there is going to
+be at least one test case that execute the method with a given input and verify
+if the output is the same as expected. The unit testing will be conducted on a
+coverage base, that is, we aim to achieve 80\% statement coverage of the entire program.
+\subsection{Unit testing of output files}		
+The only format of output file of the software system FSMS is \LaTeX\ snippets.
+In order to validate that the output file generated by the program is correct,
+tester has to copy and paste the snippet into a .tex\ file and compile the file.
+As a result, an image will be generated in the compiled .pdf file. Testings is
+done by human inspection. In specific, the tester is going to visually validate
+if the generated image of FSM is correct.  
+\bibliographystyle{plainnat}
+
+\bibliography{SRS}
+
+\newpage
+
+\section{Appendix}
+
+\subsection{Symbolic Parameters}
+
+N.A.
+\subsection{Usability Survey Questions?}
+
+N.A.
+
+\end{document}

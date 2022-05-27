@@ -1,0 +1,115 @@
+\documentclass{article}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage[colorlinks]{hyperref}
+\usepackage{xcolor}
+
+\title{SE 3XA3: Development Plan\\Finite State Machine Simulator}
+
+\author{L02GRP16, NonDeterministic Key
+  \\ Anhao Jiao (jiaoa3)
+  \\ Kehao Huang (huangk53)
+  \\ Xunzhou Ye (yex33)
+}
+
+\date{4 February 2022}
+
+\begin{document}
+
+\begin{table}[hp]
+\caption{Revision History} \label{TblRevisionHistory}
+\begin{tabularx}{\textwidth}{llX}
+\toprule
+\textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
+\midrule
+3 February 2022 & Kehao Huang & Meeting Plan \\
+4 February 2022 & Xunzhou Ye & Communication Plan, Roles, Git Workflow,
+                               PoC Demo, Technology, Coding Style \\
+  4 February 2022 & Anhao Jiao & Review and Inspection \\
+  12 April 2022 & Kehao Huang & Revision 1\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\newpage
+
+\maketitle
+
+\section{Team Meeting Plan}
+
+\begin{itemize}
+\item Recurring meetings on Mondays from 9 a.m. to 10 a.m.
+\item Small discussion sessions will be held right after each lab section.
+\item Meetings will mostly be held in a virtual setting. In-person meetings will
+  be arranged if necessary.
+\end{itemize}
+
+\section{Team Communication Plan}
+
+We will mostly be using instant messaging applications like Microsoft Teams,
+Discord, WeChat to communicate on any problem or issue we encounter throughout
+the project development.
+
+\section{Team Member Roles}
+
+\begin{itemize}
+\item Xunzhou will be the team leader.
+\item All members share similar expertise on relevant technologies that would be
+  used in the project.
+\end{itemize}
+
+\section{Git Workflow Plan}
+
+We will primarily follow the Git workflow model as suggested in the lecture to
+manage the code base. \textcolor{red}{As of the Git workflow model we follow,
+  the central repo holds two main branches with an infinite lifetime: master and
+develop. We consider master to be the main branch where the source code of HEAD
+always reflects a production-ready state. We consider develop to be the main
+branch where the source code of HEAD always reflects a state with the latest
+delivered development changes for the next release. When the source code in the
+develop branch reaches a stable point and is ready to be released, all of the
+changes should be merged back into master somehow}. Labels, or tags in Git rather, will be used as required
+for indicating deliverable submissions. Only the final changes to an deliverable
+will be merged into the main branch. All other incremental commits will be
+recorded in other branches like develop branch, feature branch, etc. New
+branches should be added if in need.
+
+\section{Proof of Concept Demonstration Plan}
+
+It is well recognized among the group members that the most difficult part is to
+implement the \LaTeX\ exportation feature. Developing a system to mechanically
+generate \LaTeX\ snippets require extensive knowledge of both the \LaTeX\
+mark-up language as well as the graphing library, \verb|tkiz|. Difficulties in
+the testing phase also comes from implementing this feature. To test the
+exportation output, an additional dependency, the \LaTeX\ rendering backend
+would be needed. Manual inspection of the rendered result would also be
+required. Fortunately, all necessary tools for testing are widely available. The
+overall portability of the code base would be supported by utilizing Python
+virtual environments along with a project requirements file.
+
+\section{Technology}
+
+\begin{description}
+\item[Programming Language] Python. Written purely in Python.
+\item[Primary IDE] PyCharm by JetBrains
+\item[Testing Framework] pytest
+\item[Document Generator] Doxygen
+\end{description}
+
+\section{Coding Style}
+
+Comply to \href{https://google.github.io/styleguide/pyguide.html}{Google Python
+  Style Guide} with \href{https://www.python.org/dev/peps/pep-0484/}{PEP484:
+  Type Hints}.
+
+\section{Project Schedule}
+
+\href{https://gitlab.cas.mcmaster.ca/yex33/transitions_l02_grp16/-/blob/main/ProjectSchedule/Project%20Schedule.gan}{Gantt
+  Project on GitLab}
+
+\section{Project Review}
+
+TO BE COMPLETED
+
+\end{document}

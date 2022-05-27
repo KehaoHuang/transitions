@@ -1,0 +1,612 @@
+\documentclass[12pt,titlepage]{article}
+
+\usepackage{graphicx}
+\usepackage{paralist}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{hhline}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{url}
+\usepackage{float}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{tabularx}
+
+\oddsidemargin -10mm
+\evensidemargin -10mm
+\textwidth 160mm
+\textheight 200mm
+\renewcommand\baselinestretch{1.0}
+
+\pagestyle {plain}
+\pagenumbering{arabic}
+
+\newcounter{stepnum}
+
+
+\title{SE 3XA3: Software Requirements Specification\\
+  Finite State Machine Simulator}
+
+\author{Team \#16, NonDeterministic Key
+  \\ Anhao Jiao (jiaoa3)
+  \\ Kehao Huang (huangk53)
+  \\ Xunzhou Ye (yex33)
+}
+
+\date{18 March 2022}
+
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+\listoftables
+
+\begin{table}[bp]
+  \caption{\bf Revision History}
+  \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+    \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+    \midrule
+    March 18 & 0.1 & Module hierarchy MIS for Condition, State, Transition \\
+    \textcolor{red}{April 12} & \textcolor{red}{1.0} & \textcolor{red}{Complete MIS} \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\pagenumbering{arabic}
+
+\newpage
+\section{Module Hierarchy}
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
+    \toprule
+    \textbf{Level 1} & \textbf{Level 2}\\
+    \midrule
+
+    {Hardware-Hiding Module} & ~ \\
+    \midrule
+
+    \multirow{1}{0.3\textwidth}{Behaviour-Hiding Module} & Machine Module\\
+    \midrule
+
+    \multirow{6}{0.3\textwidth}{Software Decision Module} & {Util Module}\\
+                     & State Module\\
+                     & Condition Module\\
+                     & Transition Module\\
+                     & EventData Module\\
+                     & Event Module\\
+
+    \bottomrule
+
+  \end{tabular}
+  \caption{Module Hierarchy}
+  \label{TblMH}
+\end{table}
+
+
+\newpage
+\section{MIS of Condition Module}
+
+\subsection{Interface Syntax}
+\subsubsection{Exported Access Programs}
+\begin{tabular}{| l | l | l | p{6cm} |}
+  \hline
+  \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+  \hline
+  Condition & str, bool & - & - \\
+  check & EventData & bool & - \\
+  \hline
+\end{tabular}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+
+\begin{description}
+\item[func] a predicate, function to call for the condition check
+\item[target] the expected boolean value return by the predicate. i.e., when True,
+  the condition-checking function should return True to pass; when False, the
+  predicate should return False to pass.
+\end{description}
+
+\subsubsection{Environment Variables}
+
+N/A
+
+\subsubsection{Assumptions}
+
+The expected value of the predicated (target) is set to True if not specified.
+
+\subsubsection{Access Program Semantics}
+
+Condition(func, target):
+
+Input: name of the condition-checking callable, the target state
+
+Transition: assign values to the appropriate state variables
+
+Output: None
+
+Exception: None \\
+check():
+
+Input: None
+
+Transition: check whether the condition passes
+
+Output: whether the condition passes
+
+Exception: None \\
+
+\newpage
+\section{MIS of State Module}
+
+\subsection{Interface Syntax}
+\subsubsection{Exported Access Programs}
+\begin{tabular}{| l | l | l | l |}
+  \hline
+  \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+  \hline
+  State & str | Enum, str | List[str] | None, str | List[str] | None, bool & - & - \\
+  enter & EventData & - & - \\
+  exit & EventData & - & - \\
+  add\_callback & str, str & - & - \\
+  \hline
+\end{tabular}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+\begin{description}
+\item[name] the name of the state
+\item[on\_enter] optional callables to trigger when a state is entered
+\item[on\_exit] optional callables to trigger when a state is exit
+\item[ignore\_invalid\_triggers] optional flag to indicated if unhandled/invalid
+  triggers should raise an exception
+\end{description}
+
+\subsubsection{Environment Variables}
+
+N/A
+
+\subsubsection{Assumptions}
+
+N/A
+
+\subsubsection{Access Program Semantics}
+
+State(name, on\_enter, on\_exit, ignore\_invalid\_triggers):
+
+Input: as described in State Variables
+
+Transition: assign values to the appropriate state variables
+
+Output: None
+
+Exception: None \\
+enter(event\_data):
+
+Input: collection of relevant data related to the ongoing transition attempt
+
+Transition: fire triggers in the context of event\_data
+
+Output: None
+
+Exception: None \\
+exit(event\_data):
+
+Input: collection of relevant data related to the ongoing transition attempt
+
+Transition: fire triggers in the context of event\_data
+
+Output: None
+
+Exception: None \\
+add\_callback(trigger, func):
+
+Input: trigger---the type of triggering event. Must be one of 'enter' or 'exit'.
+func---the name of the callback function.
+
+Transition: append the given function to the according trigger
+
+Output: None
+
+Exception: None \\
+
+\newpage
+\section{MIS of Transition Module}
+
+\subsection{Interface Syntax}
+\subsubsection{Exported Access Programs}
+\begin{tabular}{| l | l | l | l |}
+  \hline
+  \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+  \hline
+  Transition &  str,
+                str,
+                [str | Callable | List[str | Callable] | None] * 4 & - & - \\
+  add\_callback & str, str & - & - \\
+  execute & EventData & bool & - \\
+  \hline
+\end{tabular}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+
+\begin{description}
+\item[source] source state of the transition
+\item[dest] destination state of the transition
+\item[prepare] callbacks executed before conditions checks
+\item[conditions] callbacks evaluated to determine if the transition should be
+  executed
+\item[before] callbacks executed before the transition is executed but only if
+  condition checks have been successful
+\item[after] callbacks executed after the transition is executed but only if
+  condition checks have been successful
+\end{description}
+
+\subsubsection{Environment Variables}
+
+N/A
+
+\subsubsection{Assumptions}
+
+N/A
+
+\subsubsection{Access Program Semantics}
+
+Transition(source, dest, conditions, unless, before, after, prepare):
+
+Input: as described in State Variables
+
+Transition: assign values to the appropriate state variables
+
+Output: None
+
+Exception: None \\
+add\_callback(trigger, func):
+
+Input: trigger---the type of triggering event. Must be one of 'before', 'after'
+or 'prepare'. func---the name of the callback function
+
+Transition: append the given function to the according trigger
+
+Output: None
+
+Exception: None \\
+execute(event\_data):
+
+Input: collection of relevant data related to the ongoing transition attempt
+
+Transition: execute the transition
+
+Output: whether or not the transition was successfully executed
+
+Exception: None \\
+
+\newpage
+
+\color{red}
+\section{MIS of Event Module}
+
+\subsection{Interface Syntax}
+\subsubsection{Exported Access Programs}
+\begin{tabular}{| l | l | l | p{6cm} |}
+  \hline
+  \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+  \hline
+  add\_transition & Transition & - & - \\
+  add\_callback & str, str & - & - \\
+  trigger & Any & bool & - \\
+  \hline
+\end{tabular}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+\begin{description}
+\item[name] name of the event, which is also the name of the triggering callable
+\item[machine] the current Machine instance
+\item[transitions] the collection of transitions
+\end{description}
+
+\subsubsection{Environment Variables}
+N/A
+
+\subsubsection{Assumptions}
+N/A
+
+\subsubsection{Access Program Semantics}
+
+Event(name, machine):
+
+Input: as described in the State Variables
+
+Transition: assign values to the appropriate state variables
+
+Output: None
+
+Exception: None\\
+add\_transition(transition):
+
+Input: the Transition instance to add to the list. In another words, the
+transition to be associated to this Event trigger.
+
+Transition: add the transition to the list of potential transitions.
+
+Output: None
+
+Exception: None\\
+trigger(model):
+
+Input: the currently processed model
+
+Transition: execute all transitions that match the current state.
+
+Output: whether or not a transition was successfully executed.
+
+Exception: None\\
+add\_callback(trigger, func):
+
+Input: trigger---the type of triggering event. Must be one of 'before', 'after'
+or 'prepare'. func---the name of the callback function
+
+Transition: append the given function to the according trigger
+
+Output: None
+
+Exception: None \\
+
+\newpage
+\section{MIS of EventData Module}
+
+\subsection{Interface Syntax}
+\subsubsection{Exported Access Programs}
+\begin{tabular}{| l | l | l | p{6cm} |}
+  \hline
+  \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+  \hline
+  - & - & - & - \\
+  \hline
+\end{tabular}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+\begin{description}
+\item[state] The State from which the Event was triggered
+\item[event] The triggering Event
+\item[machine] The current Machine instance
+\item[model] The model/object the machine is bound to
+\item[args] optional positional arguments from trigger method to store internally
+  for possible later callback invocations
+\item[kwargs] optional keyword arguments from trigger method to store internally
+  for possible later callback invocations
+\end{description}
+
+\subsubsection{Environment Variables}
+N/A
+
+\subsubsection{Assumptions}
+N/A
+
+\subsubsection{Access Program Semantics}
+
+EventData(state, event, machine, model, args, kwargs):
+
+Input: as described in the State Variables
+
+Transition: assign values to the appropriate state variables
+
+Output: None
+
+Exception: None\\
+
+\newpage
+\section{MIS of Machine Module}
+
+\subsection{Interface Syntax}
+\subsubsection{Exported Access Programs}
+\begin{tabular}{| l | l | l | l |}
+  \hline
+  \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+  \hline
+  add\_model & Any, State | str & - & - \\
+  remove\_model & Any & - & - \\
+  get\_state & str & State & - \\
+  get\_model\_state & Any & str & - \\
+  is\_state & str & bool & - \\
+  set\_state & str | Enum | State & - & - \\
+  add\_states & str | list | dict | Enum | State & - & - \\
+  add\_transition & str, str | list[str], str, str | list[str] * 5 & - & - \\
+  get\_triggers & tuple & list[str] & - \\
+  get\_transitions & str, str | Enum | State, str | Enum | State & list[Transition] & - \\
+  remove\_transition & str, str, str & - & - \\
+  dispatch & str & - & - \\
+  callback & str, EventData & - & - \\
+  \hline
+\end{tabular}
+
+\subsection{Interface Semantics}
+\subsubsection{State Variables}
+\begin{description}
+\item[model] The object(s) whose states we want to manage. If set to
+  `SELF\_LITERAL', the current Machine instance will be used as the model.
+\item[states] A list or enumeration of valid states. If str or Enum, a new State
+  instance will be created that is named according to the string or enum
+  member's name.
+\item[initial] The initial state of the passed model.
+\item[transitions] An optional list of transition.
+\item[send\_event] When true, any arguments passed to trigger methods will be
+  wrapped in an EventData object, allowing indirect and encapsulated access to
+  data. When False, all positional and keyword arguments will be passed directly
+  to all callback methods.
+\item[auto\_transitions] When True (default), every state will automatically have
+  an associated to\_<state name>() trigger in the model.
+\item[ignore\_invalid\_triggers] When True, any calls to trigger methods that are
+  not valid for the present state (e.g., calling an a\_to\_b() trigger when the
+  current state is c) will be silently ignored rather than raising a
+  MachineError.
+\item[before\_state\_change] A callable called on every state change before the
+  transition happened. It receives the same args as normal callbacks.
+\item[after\_state\_change] A callable called on every state change after the
+  transition happened. It receives the same args as normal callbacks.
+\item[prepare\_event] A callable called before possible transitions will be
+  processed. It receives the same args as normal callbacks.
+\item[finalize\_event] A callable called on for each triggered event after
+  transitions have been processed. This is also called when a transition raises
+  an exception.
+\item[on\_exception] A callable called when an event raises an exception.
+\end{description}
+
+\subsubsection{Environment Variables}
+\begin{description}
+\item[SEPARATOR] the separator for callback triggers
+\item[WILDCARD\_ALL] the wildcard character to represent all states
+\item[WILDCARD\_SAME] the wildcard character to represent this states
+\item[SELF\_LITERAL] the flag to indicate the machine instance itself is used as
+  the model
+\end{description}
+
+\subsubsection{Assumptions}
+N/A
+
+\subsubsection{Access Program Semantics}
+
+Machine(<state variables>):
+
+Input: as described in the State Variables
+
+Transition: assign values to the appropriate state variables
+
+Output: None
+
+Exception: None\\
+add\_model(model, initial):
+
+Input: model---to be registered, initial---the initial state for this particular
+model
+
+Transition: register the model with the state machine, initialize triggers and
+callbacks.
+
+Output: None
+
+Exception: None\\
+remove\_model(model):
+
+Input: model to be removed from the machine
+
+Transition: remove a model from the state machine. The model will still contain
+all previously added triggers and callbacks.
+
+Output: None \\
+
+Exception: None \\
+get\_state(state):
+
+Input: the name of the state in string formate
+
+Transition: find the State instance with the passed name.
+
+Output: the State instance matching the passed name.
+
+Exception: None \\
+get\_model\_state(model):
+
+Input: the model of interest
+
+Transition: find the current state of the passed model.
+
+Output: the name of the state of the current state of the passed model.
+
+Exception: None \\
+is\_state(model, state):
+
+Input: model---the model of interest, state---the name of the checked state
+
+Transition: check whether the current state of the model matches the named
+state.
+
+Output: boolean indicating whether the model's current state is state
+
+Exception: None\\
+set\_state(model, state):
+
+Input: model---the targeted model, state---the value of state to be set
+
+Transition: set the current state of the model
+
+Output: None
+
+Exception: None\\
+add\_states(states, on\_enter, on\_exit, ignore\_invalid\_triggers):
+
+Input: states---a list, dict, the name of the state, or a State instance to be
+added into the state machine, on\_enter/exit---callbacks to trigger when the
+state is entered(exited), ignore\_invalid\_triggers---indicates whether or not
+triggers fired from invalid states should be ignored.
+
+Transition: parse input and adds new states to the machine.
+
+Output: None
+
+Exception: None \\
+add\_transition(trigger, source, dest, conditions, unless, before, after,
+prepare):
+
+Input: trigger---the name of the method that will trigger the transition,
+source---the name of the source state, dest---the name of the destination state,
+conditions---Conditions(s) that must pass in order for the transition to take
+place, unless---Condition(s) that must return False for the transition to take
+place, before/after---callbacks to call before(after) the transition,
+prepare---callbacks to call before evaluating the Condition(s)
+
+Transition: create a new Transition instance and add it to the internal list.
+
+Output: None
+
+Exception: \\
+get\_triggers(*states):
+
+Input: tuple of source states
+
+Transition: collects all triggers from the passed states
+
+Output: a list of all triggers sourced from the passed states
+
+Exception: None \\
+get\_transitions(trigger, source, dest):
+
+Input: trigger---the trigger name of the transition, source/dest---limits list
+to transition from(to) a certain state
+
+Output: list of transitions given the passed limits
+
+Exception: None \\
+remove\_transition(trigger, source, dest):
+
+Input: trigger---the trigger name of the transition, source/dest---limits
+removal to transition from(to) a certain state
+
+Output: None
+
+Exception: None \\
+dispatch(trigger):
+
+Input: the name of the event to be triggered
+
+Output: None
+
+Exception: None \\
+callback(func, event\_data):
+
+Input: func---the callbacks function to be invoked, event\_data---an EventData
+instance to pass to the callback or to extract arguments from
+
+Output: None
+
+Exception: None \\
+\end{document}

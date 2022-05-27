@@ -1,0 +1,315 @@
+\documentclass[12pt, titlepage]{article}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=red,
+    urlcolor=blue
+}
+\usepackage[round]{natbib}
+\usepackage{tabularx}
+\usepackage{float}
+
+\title{SE 3XA3: Test Report\\Finite State Machine Simulator}
+
+\author{
+  Team \#16, NonDeterministic Key \\
+  Anhao Jiao (jiaoa3) \\
+  Kehao Huang (huangk53) \\
+  Xunzhou Ye (yex33)
+}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+\listoftables
+\listoffigures
+
+\begin{table}[bp]
+\caption{\bf Revision History}
+\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+\midrule
+12 April 2022 & 1.0 & Initial Draft\\
+12 April 2022 & 1.1 & Revision\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\newpage
+
+\pagenumbering{arabic}
+
+\section{Functional Requirements Evaluation}
+    \begin{enumerate}
+        \item Test Name: UIT-1 
+        
+              Type: Functional, Dynamic, Manual
+              
+              Initial State: FSM simulator that is used to define a FSM
+              
+			  Input: Modification of transitions between states in an existing FSM
+			  
+              Result: The user is able to able to define a valid FSM
+        
+        \item Test Name: UIT-2\\
+        
+            Type: Functional, Dynamic, Manual
+					
+            Initial State: FSM simulator that is used to define a FSM
+					
+            Input: Modification of transitions between states in an existing FSM
+
+              Result: The user is able to modify transition in an existing FSM
+        
+        \item Test Name: UIT-3\\
+        
+            Type: Functional, Dynamic, Manual
+					
+            Initial State: FSM simulator that is used to define a FSM
+					
+            Input: Modification of states in an existing FSM
+
+             Result: The user is able to modify states in an existing FSM
+        
+        \item Test Name: UIT-4\\
+        
+            Type: Functional, Dynamic, Manual
+					
+            Initial State: FSM simulator that is used to define a FSM
+					
+            Input: The specified transitions
+
+            Result: The user is able to switch states with a valid transition
+              
+        \item Test Name: UIT-5\\
+        
+            Type: Functional, Dynamic, Manual
+  
+            Initial State: FSM simulator that is used to define a FSM
+  
+            Input: a non-existing trigger event
+
+            Result: The system is able to notify the user after an invalid input
+        
+        \item Test Name: OT-1\\
+        
+            Type: Functional, Dynamic, Manual
+    					
+            Initial State: FSM simulator that is used to define a FSM
+					
+            Input: Require current state
+
+             Result: The user is able to get the current state of the FSM
+        
+        \item Test Name: OT-2\\
+        
+            Type: Functional, Dynamic, Manual
+					
+            Initial State: FSM simulator that is used to define a FSM
+					
+            Input: A valid FSM
+
+            Result: The user is able to get the \LaTeX\ snippets of the FSM
+            
+        \item Test Name: OT-3 \\
+        
+            Type: Functional, Dynamic, Manual
+    
+            State: FSM simulator that is used to define a FSM
+
+            Input: A valid FSM
+
+            Result: The user is able to get a .png image representing the pre-defined FSM
+            
+        \item Test Name: OT-4 \\
+        
+            Type: Functional, Dynamic, Manual
+            
+            Initial State: FSM simulator that is used to define a FSM
+
+            Input: A valid FSM with only states.
+
+            Result: The user is able to get a .png image representing the pre-defined FSM with no transition
+    \end{enumerate}
+    
+
+
+\section{Nonfunctional Requirements Evaluation}
+
+\subsection{Performance}
+    \begin{enumerate}
+        \item Test Name: UT-1 \\
+        
+            Type: Functional, Dynamic, Manual
+  
+            Initial State: a well-defined FSM with states, initial state, transitions
+  
+            Input/Condition: user asked the program to export the defined FSM into \LaTeX snippets
+
+            Result: The image rendered using the exported snippet is visually appealing, with minimal overlapping of arrows, circles, or other visualization elements.
+        
+        \item Test Name: POC-1\\
+        
+            Type: Functional, Dynamic, Manual
+					
+            Initial State: user have defined a FSM
+					
+            Input: FSM with 5 states and 4 transitions
+
+            Result: The \LaTeX\ snippets can be compiled in a .tex file. The output image is as described as the FSM defined by the user.
+    \end{enumerate}     
+          
+\subsection{Usability}
+    \begin{enumerate}
+        \item Test Name: UT-2\\
+        
+            Type: Non-Functional, Dynamic, Manual
+  
+            Initial State: a computer with only Python preinstalled
+  
+            Input: user asked to install the program without assistance
+
+            Result: The majority of users(over 90\%) are able to install the program independently within 5 minutes.
+        
+        \item Test Name: UT-3\\
+        
+            Type: Non-Functional, Dynamic, Manual
+  
+            Initial State: a computer with the program installed
+  
+            Input: user asked to incorporate the program in their academic work flow
+
+            Result: The majority of users(over 90\%) are benefited from the use of our tool
+    \end{enumerate} 
+		
+\subsection{Robustness}
+    \begin{enumerate}
+        \item Test Name: POC-4\_1\\
+        
+            Type: Functional, Dynamic, Manual
+  
+            Initial State: user have defined a FSM
+  
+            Input: FSM with 100 states and 400 transitions
+
+            Result: A FSM with 100 states and 400 transitions can be defined by the software. 
+            
+        \item Test Name: POC-4\_2\\
+        
+            Type: Functional, Dynamic, Manual
+  
+            Initial State: user have defined a FSM
+  
+            Input: FSM with 100 states and 400 transitions
+            
+            Result: The system is able to generate the corresponding \LaTeX\
+            snippets of a FSM with 100 states and 400.
+    
+          \end{enumerate}
+\subsection{Maintainability and Support}
+\begin{enumerate}
+\item Test Name: MS-1
+
+  Type: Non-Functional, Dynamic, Manual
+
+  Initial State: a computer with the program installed
+
+  Input: update the software with new features
+
+  Result: The overall maintenance is finished within 4 hours
+
+\item Test Name: MS-2
+
+  Type: Non-Functional, Dynamic, Manual
+
+  Initial State: a computer with the program installed
+
+  Input: Install and use the software
+
+  Result: 98\% of students are able to run the system on their pcs or laptops.
+\end{enumerate}
+	
+\section{Comparison to Existing Implementation}	
+    N/A
+\section{Unit Testing}
+        Each method in the software is considered as a unit. For each method, at least one test case that execute the method was conducted and passed.
+        
+        
+\section{Changes Due to Testing}
+    
+\section{Automated Testing}
+	N/A	
+\section{Trace to Requirements}
+
+\begin{table}[H]
+  \begin{tabularx}{1.0\linewidth}[H]{ll}
+    \toprule
+    Test Case & Requirement \\
+    \midrule
+    UIT-1 & FR1 \\
+    UIT-2 & FR2 \\
+    UIT-3 & FR3 \\
+    UIT-4 & FR4 \\
+    UIT-5 & FR4 \\
+    OT-1 & FR5 \\
+    OT-2 & FR6 \\
+    OT-3 & FR5 \\
+    OT-4 & FR5 \\
+    \midrule
+    UT-1 & NF1--2 \\
+    UT-2 & NF3, NF10, NF13 \\
+    UT-3 & NF2, NF4--7, NF9, NF11--12 \\
+    MS-1 & NF12\\
+    MS-2 & NF13\\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+		
+\section{Trace to Modules}		
+
+\begin{table}[H]
+  \begin{tabularx}{1.0\linewidth}{ll}
+    \toprule
+    Test Case & Modules \\
+    \midrule
+    UIT-1 & M2-M8 \\
+    UIT-2 & M2-M8 \\
+    UIT-3 & M2-M8 \\
+    UIT-4 & M2-M8 \\
+    UIT-5 & M2-M8 \\
+    OT-1 & M2-M8 \\
+    OT-2 & M2-M8 \\
+    OT-3 & M2-M8 \\
+    OT-4 & M2-M8 \\
+    \midrule
+    UT-1 & M1 \\
+    UT-2 & M1-M8 \\
+    UT-3 & M1-M8 \\
+    MS-1 & M1 \\
+    MS-2 & M1 \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section{Code Coverage Metrics}
+After applying all the tests we designed in the test plan document, we managed
+to achieved a 98\% statement coverage of entire project. To achieve the code
+coverage goal, we conducted unit testing with pytest together with manual
+testing with visual inspection. This number is supported by the fact that all
+the modules are covered in the testing phase and are tested multiple times. 
+
+\bibliographystyle{plainnat}
+
+\bibliography{SRS}
+
+\end{document}
